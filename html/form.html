@@ -5,11 +5,12 @@
 	<title>form</title>
 </head>
 <body>
-	<form action="/create-checkout-session" method="get">
-		<input type="text" name="cardNumber">
-		<input type="text" name="cardMonth">
-		<input type="text" name="cardYear">
-		<input type="text" name="cardCVC">
+	<form action="/create-checkout-session" method="post">
+		<input type="text" name="cardNumber" placeholder = "number">
+		<input type="text" name="cardMonth" placeholder = "MM">
+		<input type="text" name="cardYear" placeholder ="YY">
+		<input type="text" name="cardCVC" placeholder = "CVV">
+		<input type="text" name="amountStripe" placeholder = "amount">
 		<input type="submit" value="Pay">
 	</form>
 </body>

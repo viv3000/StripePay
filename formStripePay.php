@@ -10,18 +10,26 @@ $app = new \Slim\App(new \Slim\Psr7\Factory\ResponseFactory());
 
 $token = null;
 
-$app->get('/create-checkout-session', function(Request $request, Response $response){
-	$number = $_GET['cardNumber'];
+$app->post('/create-checkout-session', function(Request $request, Response $response){
+	$number = $_POST['cardNumber'];
 	$token = \Stripe\Token::create(array(
 	'card' => array(
-		'number' => $_GET['cardNumber'],
-		'exp_month' => $_GET['cardMonth'],
-		'exp_year' => $_GET['cardYear'],
-		'cvc' => $_GET['cardCVC'],
+		'number' => $_POST['cardNumber'],
+		'exp_month' => $_POST['cardMonth'],
+		'exp_year' => $_POST['cardYear'],
+		'cvc' => $_POST['cardCVC'],
 	)));
 	echo "$token";
 
-//	$response->getBody()->write();
+	try{
+	$charge = \Stripe\Charge::create(array(
+		"amount" => $_POST['amountStripe'],
+		"currency" => "usd",
+		"source" => $token,
+	));
+	}catch(\Stripe\Error\Card $err){
+		echo($err);
+	}
 
 	return $response;
 });
